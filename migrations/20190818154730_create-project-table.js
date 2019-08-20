@@ -23,12 +23,24 @@ exports.up = function(knex) {
         .unique()
         .notNullable();
       tbl.string('description');
+    })
+    .createTable('project_resources', tbl => {
+      tbl
+        .integer('project_id')
+        .unsigned()
+        .notNullable()
+        .references('projects.id');
+      tbl
+        .integer('resource_id')
+        .unsigned()
+        .notNullable()
+        .references('resources.id');
     });
 };
-
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('tasks')
+    .dropTableIfExists('project-resources')
     .dropTableIfExists('resources')
+    .dropTableIfExists('tasks')
     .dropTableIfExists('projects');
 };
